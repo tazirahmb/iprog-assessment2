@@ -1,0 +1,26 @@
+:root {
+  /* color variable */
+  --primaryDark: #4d1b1b;
+  --primary: #b73a3a;
+  --primaryLight: #fc9393;
+  
+  --accentColor: #91bdff;
+  
+  /* // == neutral */
+  --white: #fff;
+  --neutralColorLighter: #fafafa;
+  --neutralColorLight: #e0e0e6;
+  --neutralColor: #c1c2c5;
+  --neutralColorDark: #9899aa;
+  --neutralColorDarker: #2c3e50;
+  --black: #000;
+
+  /* // Font */
+  --mainFont: 'Montserrat', sans-serif;
+  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
+  'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
+  'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+  
+  /* // 100% -> 16px | 62.5% => 10px */
+--regularFontSize: 62.5%; 
+}

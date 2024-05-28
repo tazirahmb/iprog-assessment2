@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,400;0,500;0,700;0,800;0,900;1,200;1,400;1,500;1,700;1,800;1,900&display=swap');
+* {
+	font-family: var(--mainFont);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: var(--neutralColorDarker);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li,
+label,
+span {
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: 1.15;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-weight: bold;
+	color: var(--neutralColorDarker);
+}
+
+h1, .text-size-2xl {  font-size: 48px; }
+h2, .text-size-xl {  font-size: 32px;}
+h3, .text-size-lg {  font-size: 24px;}
+h4, .text-size-md {  font-size: 16px;}
+h5, .text-size-sm {  font-size: 14px;}
+h6, .text-size-xs {  font-size: 12px;}
+
+p,
+li,
+label {
+  font-size: 12px;
+}
+
+a {
+	color: var(--accentColor);
+	font-weight: bold;
+	font-size: inherit;
+	text-decoration: none;
+	border-bottom: 1px solid var(--accentColor);
+
+	&:hover {
+		background-color: var(--accentColor);
+		color: var(--neutralColorDarker);
+		border-bottom: 4px solid var(--neutralColorDarker);
+		transition: 0.25s;
+	}
+
+	&.link-reset,
+	&.link-reset:hover {
+		border: none;
+		color: inherit;
+	}
+
+	&.btn {
+		display: inline-block;
+		text-align: center;
+		padding: 8px 16px;
+	}
+}
+
+ul {
+	list-style: square;
+}
+
+ol,
+ul,
+dl {
+	margin-bottom: 2.4rem;
+
+	li,
+	dt,
+	dd {
+		margin-left: 3.2rem;
+		margin-bottom: 0.8rem;
+	}
+}
+
+/* // custom style */
+.text-nowrap {
+	white-space: nowrap;
+}
+
+.text-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* reset link style */
+.link-reset {
+  flex-direction: row;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.link-reset:hover {
+  text-decoration: none;
+  border-bottom: none;
+  background: none;
+}
