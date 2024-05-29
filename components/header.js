@@ -1,23 +1,29 @@
-const template = document.createElement('template');
-template.innerHTML = `
+const element = `
   <style>
     .header-wrapper {
       background-color: var(--white);
       border-bottom: 1.5px solid var(--neutralColorLight);
     }
   </style>
-  <header class="header-wrapper">
-    <strong>Zira's Car Rental</strong>
+  <header class="header-wrapper container py-1">
+    <div class="flex-row justify-content-between">      
+      <div>
+        <p>logo</p>  
+        <strong>Zira's Car Rental</strong>
+      </div>
+      <input type="text" placeholder="Search car here..." />
+      <button>Reservation</button> 
+    </div>
   </header>
 `;
 
+// Reservation button redirect ke halaman reservation, nampilin dari local storage klo ada data, kalo gaada diapus.
 class MyHeader extends HTMLElement {
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.innerHTML = element;
   }
 }
 
-customElements.define('my-header', MyHeader);
+customElements.define("my-header", MyHeader);

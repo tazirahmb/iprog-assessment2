@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Car Reservation</title>
+</head>
+
+<body>
+
+  <form>
+
+    <!-- {# checkout input list (name, moibile number, email, checklist yg mastiin punya SIM) #} -->
+    <input aria-label="Full Name" type="text" placeholder="Input name here..." name="name" />
+    <input aria-label="Phone Number" type="text" placeholder="Input phone number here..." name="phoneNumber" />
+    <input aria-label="Email" type="email" placeholder="Input email here..." name="email" />
+    <input aria-label="Driver License availability" type="checkbox" name="email" /> I have driver license
+
+    <h2>Reservation Summary</h2>
+    <!-- {# car item modification (bisa ambil dari assignment 1) #}  -->
+    <img src="" alt="" id="reservation-car__img">
+    <input aria-label="Car Quantity" type="number" name="qty" placeholder="car qty" />
+    <!-- {# calendar input (input type date 2, start dan en), trus pke luxon buat cek selisihnya #} -->
+    Start Date: <input aria-label="Rental Start Date" type="date" name="startDate" min="today" />
+    End Date: <input aria-label="Rental End Date" type="date" name="startDate" min="today" />
+
+    <!-- {# summary (total hari + mobil + harga mobil) #} -->
+    Waiting to paid: A$sekian
+
+    <!-- {# submit button + cancel buat balik; kalo cancel data keapus, klo dari browser masih kesimpen #}  -->
+    <button type="submit">Submit</button>
+    <button type="button">Cancel</button>
+  </form>
+  <script>
+    const carData = window.localStorage.getItem('car');
+    const carQty = window.localStorage.getItem('qty');
+
+    img
+
+  </script>
+</body>
+
+</html>
