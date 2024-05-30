@@ -9,7 +9,8 @@ class CarItem extends HTMLElement {
     const { stock = 0 } = this.item;
     const isSoldOut = stock === 0;
 
-    this.innerHTML = `<style>
+    this.innerHTML = `    
+    <style>
     .car-item {
       border: 1px solid var(--neutralColor);
       border-radius: 12px;
@@ -56,7 +57,7 @@ class CarItem extends HTMLElement {
 					</span>
 				</p>
 			</div>
-			<button class="my-btn car-item__btn" ${isSoldOut ? "disabled" : ""}>
+			<button is="my-button" class="car-item__btn" ${isSoldOut ? "disabled" : ""}>
 				${isSoldOut ? "Not Available" : "Rent this Car"}
 			</button>
 		</div>`;

@@ -1,10 +1,10 @@
 :root {
   /* color variable */
-  --primaryDark: #4d1b1b;
-  --primary: #b73a3a;
-  --primaryLight: #fc9393;
+  --primaryDark: #1b314d;
+  --primary: #3a79b7;
+  --primaryLight: #93cdfc;
   
-  --accentColor: #91bdff;
+  --accentColor: #f8ff91;
   
   /* // == neutral */
   --white: #fff;
