@@ -1,0 +1,29 @@
+#car__img {
+  width: 200px;
+  height: auto;
+}
+
+/* cart item button count */
+.cart-item__count button {
+  width: 32px;
+  height: 32px;
+  padding: 0 8px;
+}
+
+.cart-item__count__button-min {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.cart-item__count__button-plus {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.cart-item__count__input {
+  width: 120px;
+  height: 32px;
+  border-radius: 0;
+  padding: 8px;
+  text-align: center;
+}
