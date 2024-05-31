@@ -18,6 +18,8 @@
   <script type="module" src="../components/headerMinimal.js"></script>
   <script type="module" src="../components/myButton.js"></script>
 
+  <!-- external packages -->
+  <script src=" https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js "></script>
 
 </head>
 
@@ -85,25 +87,45 @@
     </div>
 
     <!-- {# calendar input (input type date 2, start dan en), trus pke luxon buat cek selisihnya #} -->
-    Start Date: <input aria-label="Rental Start Date" type="date" name="startDate" min="today" />
-    End Date: <input aria-label="Rental End Date" type="date" name="startDate" min="today" />
+    Start Date: <input aria-label="Rental Start Date" type="date" name="startDate" id="car__start-date" />
+    End Date: <input aria-label="Rental End Date" type="date" name="startDate" id="car__end-date" />
 
     <!-- {# summary (total hari + mobil + harga mobil) #} -->
-    Waiting to paid: A$sekian
+    Waiting to paid: <strong>A$<span id="car__total-price"></span></strong>
 
     <!-- {# submit button + cancel buat balik; kalo cancel data keapus, klo dari browser masih kesimpen #}  -->
     <button type="submit">Submit</button>
     <button type="button">Cancel</button>
   </form>
   <script>
+    // variable prep
     const productDummyImage =
       "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-Y-Range-Desktop-LHD.jpg";
-
     const carData = window.localStorage.getItem('car');
     const parsedCarData = JSON.parse(carData);
     const initCarQty = window.localStorage.getItem('qty');
+    const initStartDate = window.localStorage.getItem('startDate');
+    const initEndDate = window.localStorage.getItem('endDate');
+    const todayDate = luxon.DateTime.now().toISODate();
 
     // === function
+    function handleCountDayDifference(startDate, endDate) {
+      var end = luxon.DateTime.fromISO(endDate);
+      var start = luxon.DateTime.fromISO(startDate);
+
+      return end.diff(start, 'days').as('days');
+    }
+    function countTotalPrice() {
+      const carQty = parseInt(window.localStorage.getItem('qty'), 10);
+      const startDate = window.localStorage.getItem('startDate');
+      const endDate = window.localStorage.getItem('endDate');
+      const daysTotal = handleCountDayDifference(startDate, endDate);
+      const carPricePerDay = parseInt(parsedCarData.price, 10);
+
+      const totalPrice = carQty * daysTotal * carPricePerDay;
+
+      document.getElementById('car__total-price').innerHTML = totalPrice;
+    }
     function handleUpdateQtyInput(currentQty) {
       const parsedCurrentQty = parseInt(currentQty, 10);
 
@@ -114,19 +136,11 @@
       if (parsedCurrentQty >= parseInt(parsedCarData.stock, 10)) document.querySelector('.cart-item__count__button-plus').setAttribute('disabled', '');
       else document.querySelector('.cart-item__count__button-plus').removeAttribute('disabled');
     }
-
     function getCurrentCarQty() {
       const currentValue = document.getElementById('car__qty').value;
 
       return parseInt(currentValue, 10);
     }
-
-    // func getCartPriceTotal = (shoppingCartItems) =>
-    //   shoppingCartItems.reduce(
-    //     (sum, { quantity, price }) => sum + quantity * price,
-    //     0,
-    //   );
-
     // watch for qty value change
     function handleQtyChange(qty) {
       let newCarQty = qty;
@@ -136,33 +150,50 @@
       if (newCarQty <= 0 || isNaN(newCarQty)) newCarQty = 1;
       else if (newCarQty > maximumStock) newCarQty = maximumStock;
 
-      console.log(newCarQty);
-      console.log(maximumStock);
       window.localStorage.setItem('qty', newCarQty);
+
       handleUpdateQtyInput(newCarQty);
-
+      countTotalPrice();
     }
-
     function modifyCarInputQuantity(e) {
       let newCarQty = parseInt(e.currentTarget.value, 10);
 
       handleQtyChange(newCarQty);
 
     }
-
     function addCarQuantity(e) {
       e.preventDefault();
       const newCarQty = getCurrentCarQty() + 1;
 
       handleQtyChange(newCarQty);
     };
-
     function reduceCarQuantity(e) {
       e.preventDefault();
       const newCarQty = getCurrentCarQty() - 1;
       handleQtyChange(newCarQty);
     }
+    function handleStartDateChange(e) {
+      const currentStartDate = e.currentTarget.value;
+      window.localStorage.setItem('startDate', currentStartDate);
 
+      const minEndDate = luxon.DateTime.fromISO(currentStartDate).plus({ days: 1 });
+      const currentEndDate = luxon.DateTime.fromISO(document.getElementById('car__end-date').value);
+      let newEndDate = currentEndDate;
+
+      if (currentEndDate.diff(minEndDate).as('days') <= 0) newEndDate = minEndDate;
+
+      document.getElementById('car__end-date').value = newEndDate.toISODate();
+      document.getElementById('car__end-date').setAttribute('min', newEndDate.toISODate());
+      document.getElementById('car__end-date').removeAttribute('disabled');
+      countTotalPrice();
+    }
+    function handleEndDateChange(e) {
+      const currentEndDate = e.currentTarget.value;
+      window.localStorage.setItem('endDate', currentEndDate);
+
+      const currentStartDate = window.localStorage.getItem('startDate');
+      countTotalPrice();
+    }
 
     // document ready
     if (parsedCarData) {
@@ -170,14 +201,26 @@
 
       // set default settings for input
       document.getElementById('car__img').setAttribute('src', image);
+      document.getElementById('car__start-date').setAttribute('min', initStartDate ? initStartDate : todayDate);
+      document.getElementById('car__end-date').setAttribute('min', initStartDate ? luxon.DateTime.fromISO(initStartDate).plus({ days: 1 }).toISODate() : todayDate);
+      if (!initStartDate) {
+        document.getElementById('car__end-date').setAttribute('disabled', ''); // disable end date at beginning if no start date
+      }
+      if (initEndDate) {
+        document.getElementById('car__end-date').value = initEndDate;
+      }
       handleUpdateQtyInput(initCarQty)
+      countTotalPrice();
     }
 
+    // TODO: Bug di init startdate and enddate
 
-    // === set event listener
+    // === set default event listener
     document.getElementById('car__qty').addEventListener('input', modifyCarInputQuantity);
     document.querySelector('.cart-item__count__button-min').addEventListener('click', reduceCarQuantity);
     document.querySelector('.cart-item__count__button-plus').addEventListener('click', addCarQuantity);
+    document.getElementById('car__start-date').addEventListener('input', handleStartDateChange);
+    document.getElementById('car__end-date').addEventListener('input', handleEndDateChange);
 
 
   </script>
