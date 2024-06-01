@@ -26,7 +26,7 @@
   <my-header-minimal></my-header-minimal>
 
   <main class="container py-8">
-    <h1 class="mb-2">Reservation Form</h1>
+    <h1 class="mb-3 text-center">Reservation Form</h1>
     <form name="reservation-form">
       <!-- {# checkout input list (name, moibile number, email, checklist yg mastiin punya SIM) #} -->
       <div class="flex-row justify-content-start flex-spacing-2 mb-5">
@@ -83,20 +83,24 @@
         </div>
       </div>
 
-      <h2 class="mt-3 mb-2">Order Summary</h2>
+      <h2 class="mt-4 mb-3 text-center">Order Summary</h2>
       <div class="flex-row flex-spacing-2">
         <!-- Car Information  -->
         <div class="col-5">
           <div class="flex-column flex-spacing-2">
             <img id="car__img" src="" alt="" class="mb-3">
-            <p id="car__name"></p>
-            <p>A$<span id="car__price"></span> / Day</p>
           </div>
         </div>
 
         <!-- Car Qty Modification  -->
-        <div class="col-7">
+        <div class="col-7 py-1 px-2 order-summary__wrapper">
           <div class="flex-row flex-spacing-2 car__reservation-summary-price">
+            <div class="col-12 order-summary__header py-2">
+              <div class="flex-row justify-content-between align-items-center">
+                <span class="car__name-wrapper">Car Type: <p id="car__name"></p></span>
+                <p>A$<span id="car__price"></span> / Day</p>
+              </div>
+            </div>
             <!-- Calendar Input Count  -->
             <div class="col-6 input-box">
               <label class="input__label" for="car__start-date">
@@ -134,8 +138,8 @@
 
             <!-- Price total -->
             <div class="col-6">
-              <div class="flex-column">
-                <label class="input__label">
+              <div class="flex-row align-items-end justify-content-end my-2">
+                <label class="input__label mr-1">
                   Total Price
                 </label>
                 <strong>A$<span id="car__total-price"></span></strong>
@@ -145,12 +149,13 @@
         </div>
       </div>
       <!-- Submit & Cancel  -->
+      <div class="mt-4"></div>
       <div class="flex-row flex-spacing-2">
         <div class="col-6">
-          <button is="my-button" type="submit">Submit</button>
+          <button is="my-button" class="outline" type="button" id="reservation__cancel-reservation">Cancel</button>
         </div>
         <div class="col-6">
-          <button is="my-button" class="outline" type="button" id="reservation__cancel-reservation">Cancel</button>
+          <button is="my-button" type="submit">Submit</button>
         </div>
       </div>
     </form>

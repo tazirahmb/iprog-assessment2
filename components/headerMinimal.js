@@ -9,14 +9,24 @@ const element = `
       color: var(--white);
     }
 
+    #header-logo__text {
+  color: var(--white);
+  font-size: 16px;
+}
+
+.header-logo:hover {
+cursor: pointer;
+}
+
   </style>
   <header class="header-wrapper py-1">
   <div class="container">
   <div class="flex-row justify-content-center">      
-  <div>
-  <p>logo</p>  
-  <strong>Zira's Car Rental</strong>
-  </div>
+    <div class="flex-row justify-content-between">      
+      <div class="flex-row align-items-center header-logo" onClick="window.location.href = '/'">
+        <img src="/images/logo.png" id="header-logo__img" width="48px" class="mr-2"></img> 
+        <span id="header-logo__text"><strong>Tazirah's</strong><br/>Car Rental</span>
+      </div>
   </div>
   </div>
   </header>

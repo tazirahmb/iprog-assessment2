@@ -14,9 +14,9 @@ const template = `
  <div
 		class="no-data my-5 flex-column justify-content-center align-items-center text-center"
 	>
-		<span class="no-data__icon mb-2">{icon}</span>
+		<span class="no-data__icon mb-2">🔍</span>
 		<h1 class="no-data__text text-size-md mb-1">Not Found</h1>
-		<span class="no-data__message">{message}</span>
+		<span class="no-data__message">Check your search query again</span>
 	</div>
 `;
 

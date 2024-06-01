@@ -26,7 +26,7 @@
 
   <!-- {# list #} -->
   <main class="container py-8">
-    <section class="flex-row justify-content-start flex-spacing-3" id="home-content"><loading-spinner /></section>
+    <section class="flex-row justify-content-center flex-spacing-3" id="home-content"><loading-spinner /></section>
   </main>
   <script>
     const mainContent = document.getElementById('home-content');
@@ -37,7 +37,7 @@
       .then((res) => res.text())
       .then((res) => {
         const carData = JSON.parse(res).map(({ brand, name, price, stock, ...rest }) => ({ name: brand + ' ' + name, price: parseInt(price, 10), stock: parseInt(stock, 10), ...rest }));
-        console.log(carData);
+
         if (carData.length === 0) mainContent.innerHTML = '<no-data />';
         else {
           const carDataVisual = carData.reduce((accum, car) => accum + `<div class="col-4"><car-item data='${JSON.stringify(car)}'></car-item></div>`, '');

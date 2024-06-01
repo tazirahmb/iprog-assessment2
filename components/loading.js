@@ -84,11 +84,9 @@ const element = `
         opacity: 0;
       }
     }
-
-    .lds-wrapper {
-      width: 100vw;
-      height: 100vh;
-    }
+.lds-wrapper {
+  width: 100%;
+}
   </style>
 <div
 		class="flex-row align-items-center justify-content-center lds-wrapper"

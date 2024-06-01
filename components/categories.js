@@ -59,14 +59,17 @@ class Categories extends HTMLElement {
   </style>
   <nav class="category-wrapper">
     <div class="container flex-row justify-content-around g-1">
-      ${categoriesList.map(
-        (category) => `<div class="py-1 px-1 category-item ${
-          category.value === selectedCategory ? "category__active" : ""
-        }">
+      ${categoriesList.reduce(
+        (accum, category) =>
+          accum +
+          `<div class="py-1 px-1 category-item ${
+            category.value === selectedCategory ? "category__active" : ""
+          }">
             <a class="link-reset category-link" href="?category=${
               category.value
             }">${category.label}</a>
-          </div>`
+          </div>`,
+        ""
       )}
     </div>
   </nav>

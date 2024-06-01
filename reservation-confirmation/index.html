@@ -2,13 +2,15 @@
 <html lang="en">
 
 <head>
-  <title>Zira's Car Rental</title>
+  <title>Order confirmation</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- CSS Import -->
   <link rel="stylesheet" href="css/normalise.css" />
   <link rel="stylesheet" href="css/globals.css" />
   <link rel="stylesheet" href="css/layouts.css" />
+
+  <link rel="stylesheet" href="../reservation-confirmation/reservation-confirmation.css" />
 
   <!-- Component Import -->
   <script type="module" src="components/headerMinimal.js"></script>
@@ -23,7 +25,7 @@
 
   <!-- {# list #} -->
   <main class="container py-8">
-    <section class="flex-row justify-content-start flex-spacing-3" id="home-content"><loading-spinner /></section>
+    <section class="flex-column justify-content-center flex-spacing-3" id="home-content"><loading-spinner /></section>
   </main>
   <script>
     const mainContent = document.getElementById('home-content');
@@ -40,7 +42,7 @@
           const confirmationStatus = Boolean(parseInt(carData[0].confirmationStatus, 10));
           const data = carData[0];
           const carDataVisual = `
-           <p class="text-size-xl mt-6 text-center">🎉</p>
+           <p class="text-size-xl text-center">🎉</p>
   <h1 class="my-2 text-center">Order Complete</h1>
   <div class="flex-row justify-content-center">
     <div class="col-6">
@@ -73,55 +75,57 @@
             <td>${data.phoneNumber}</td>
           </tr>
         </table>
-        <h2 class="text-center my-2">Ordered Item</h2>
+        <h2 class="text-center my-2">Ordered Car</h2>
          <div class="flex-row flex-spacing-2">
         <!-- Car Information  -->
-        <div class="col-5">
-          <div class="flex-column flex-spacing-2">
-            <img id="car__img" src="${data.image}" alt="" class="mb-3">
-            <p id="car__name">${data.brand + ' ' + data.carName}</p>
-            <p>A$<span id="car__price">${data.initPrice}</span> / Day</p>
-          </div>
-        </div>
-
+        <img id="car__img" src="${data.image}" alt="" class="mb-3 col-12">
+        
+        
         <!-- Car Qty Modification  -->
-        <div class="col-7">
+         <div class="col-12 py-1 px-2 mt-2 mb-3 order-summary__wrapper">
           <div class="flex-row flex-spacing-2 car__reservation-summary-price">
+            <div class="col-12 order-summary__header py-2">
+              <div class="flex-row justify-content-between align-items-center">
+                <span class="car__name-wrapper"><p id="car__name">${data.brand + ' ' + data.carName}</p></span>
+                <p>A$<span id="car__price">${data.initPrice}</span> / Day</p>
+              </div>
+            </div>
             <!-- Calendar Input Count  -->
-            <div class="col-6 input-box">
-              <label class="input__label" for="car__start-date">
+            <div class="col-4 input-box">
+              <p class="summary__title">
                 Pick up Date
-              </label>
-<span>${data.startDate}</span>
-</div>
-<div class="col-6 input-box">
-  <label class="input__label" for="car__end-date">
-    Drop off Date
-    </label>
-    <span>${data.endDate}</span>
-    </div>
-    
-    <!-- Qty Count  -->
-    <div class="cart-item__count col-6">
-      <label class="input__label" for="car__qty">
-        Car Quantity
-        </label>
+              </p>
+              <span>${data.startDate}</span>
+            </div>
+            <div class="col-4 input-box">
+              <p class="summary__title">
+                Drop off Date
+              </p>
+    <span>${data.endDate}</span>            </div>
+
+            <!-- Qty Count  -->
+            <div class="cart-item__count col-4">
+              <p class="summary__title" >
+                Car Quantity
+              </p>
         <span>${data.quantity}</span>
+            </div>
+
+            <!-- Price total -->
+            <div class="col-12 summary__total-price">
+              <div class="flex-row align-items-center justify-content-around mr-2">
+                <p class="text-size-md mr-1">
+                  Total Price
+                </p>
+                <strong class="text-size-lg">A$<span id="car__total-price">${data.totalPrice}</span></strong>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      </div>
-      <div class="flex-row justify-content-end align-items-center my-2">
-        <span>Total Price</span>
-        <span class="ml-2 text-size-lg">
-          <strong>A$${data.totalPrice}</strong>
-        </span>
-      </div>
       <button is="my-button" id="order-summary__confirm-reservation" ${confirmationStatus ? 'disabled' : ''}>
         ${confirmationStatus ? 'Reservation Confirmed' : 'Confirm Reservation'}
       </button>
-      <button is="my-button">
+      <button is="my-button" class="outline mt-2" onClick="window.location.href = '/'">
         Back to Home
       </button>
     </div>

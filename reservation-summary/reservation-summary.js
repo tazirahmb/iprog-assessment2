@@ -15,7 +15,6 @@ const inputNameList = [
   "lastName",
   "phoneNumber",
   "email",
-  "phoneNumber",
   "startDate",
   "endDate",
   "qty",
@@ -103,7 +102,7 @@ function handleCountDayDifference(startDate, endDate) {
 }
 function setInitStartAndEndDate(startDate, endDate) {
   const _startDate =
-    handleCountDayDifference(startDate, todayDate) >= 0 ? startDate : todayDate;
+    handleCountDayDifference(startDate, todayDate) <= 0 ? startDate : todayDate;
   const _endDate =
     handleCountDayDifference(tomorrowDate, endDate) >= 0
       ? endDate
@@ -223,7 +222,7 @@ function handleCancelReservation() {
     window.location.href = "/";
   }
 }
-function handleSubmitReservation(e, data) {
+function handleSubmitReservation(e) {
   e.preventDefault();
   const formData = new FormData();
 
@@ -234,7 +233,7 @@ function handleSubmitReservation(e, data) {
   // append cart order
   formData.append("_id", parsedCarData._id);
   formData.append("totalPrice", countTotalPrice());
-
+  console.log(formData);
   fetch(`/api/postOrder.php`, {
     method: "POST",
     body: formData,
@@ -242,6 +241,7 @@ function handleSubmitReservation(e, data) {
     .then((res) => res.text())
     .then((res) => JSON.parse(res)._id)
     .then((orderId) => {
+      console.log(orderId);
       emptyLocalStorage();
       window.location.href = `/reservation-confirmation?orderId=${orderId}`;
     })

@@ -3,19 +3,32 @@
   height: auto;
 }
 
-#car__name {
-  font-size: 20px;
-  font-weight: bold;
+.order-summary__wrapper {
+  border: 2px solid var(--neutralColorDarker);
+  border-radius: 8px;
 }
 
-#car__name + p {
+#car__name {
+  font-size: 20px;
+  display: inline-flex;
+  font-weight: 500;
+}
+
+.car-name__wrapper + p {
   font-size: 18px;
   color: var(--neutralColorDark);
 }
 
 #car__price {
-  color: var(--neutralColorDark);
+  color: var(--neutralColorDarker);
   font-weight: bold;
+}
+
+.order-summary__header {
+  border-bottom: 1px solid var(--neutralColorDarker);
+  background-color: var(--accentColor);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 

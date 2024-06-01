@@ -75,9 +75,6 @@ class CarItem extends HTMLElement {
   }
 
   handleClickReserveCar(item) {
-    console.log("function");
-    console.log(item);
-
     // save data to localstorage
     window.localStorage.setItem("car", JSON.stringify(item)); // still not work...
     window.localStorage.setItem("qty", 1);

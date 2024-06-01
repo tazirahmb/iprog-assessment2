@@ -26,7 +26,9 @@
   }
 
 // insert order data to db after stock successfully decreased
-  $add_order_query = "INSERT INTO orders(_id, full_name, phone_number, email, car_id, car_quantity, start_date, end_date, total_price) VALUES('$orderId', '$fullName', '$phoneNumber', '$email', '$carId', '$carQty', '$startDate', '$endDate', '$totalPrice')";
+  $add_order_query = "INSERT INTO
+  orders(_id, full_name, phone_number, email, car_id, car_quantity, start_date, end_date, total_price)
+  VALUES('$orderId', '$fullName', '$phoneNumber', '$email', '$carId', '$carQty', '$startDate', '$endDate', '$totalPrice')";
   mysqli_query($conn, $add_order_query);
 
   $result = array("_id"=>$orderId);

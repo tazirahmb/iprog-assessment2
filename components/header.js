@@ -44,48 +44,57 @@ const element = `
   border-bottom-left-radius: 0;
   margin: 0;
 }
+
+#header-logo__text {
+  color: var(--white);
+  font-size: 16px;
+}
+
+.header-logo:hover {
+cursor: pointer;
+}
   </style>
   <header class="header-wrapper py-1">
   <div class="container">
-  <div class="flex-row justify-content-between">      
-  <div>
-  <p>logo</p>  
-  <strong>Zira's Car Rental</strong>
-  </div>
-  <form name="car__search-form" method="get">
-			<input
-      type="text"
-      placeholder="Search car by name or brand..."
-				name="search"
-								list="search-list"
-				aria-label="searchbox-input"
-				class="input__style search-box"
-				onKeyDown={handleSearchKeyDown}
-			/>
-							<datalist id="search-list">
-									<option value="Tesla Model S"></option>
-									<option value="Tesla Model 3"></option>
-									<option value="Tesla Model X"></option>
-									<option value="Tesla Model Y"></option>
-									<option value="Toyota Camry"></option>
-									<option value="Toyota Crown"></option>
-									<option value="Toyota bZ4X"></option>
-									<option value="Subaru Crosstek Hybrid"></option>
-									<option value="Subaru Forester Hybrid"></option>
-									<option value="Subaru Solterra"></option>
-									<option value="Mazda CX-30"></option>
-								</datalist>
-			<button
-      is="my-button"
-				type="submit"
-				aria-label="search-icon"
-				class="search-box__btn accent-button-style"
-			>
-				Search
-			</button>
-		</form>
-  <button class="header__reservation-btn py-1 px-2 accent-button-style" onClick="window.location.href = '/reservation-summary'">Reservation</button> 
-  </div>
+    <div class="flex-row justify-content-between">      
+      <div class="flex-row align-items-center header-logo" onClick="window.location.href = '/'">
+        <img src="/images/logo.png" id="header-logo__img" width="48px" class="mr-2"></img> 
+        <span id="header-logo__text"><strong>Tazirah's</strong><br/>Car Rental</span>
+      </div>
+    <form name="car__search-form" method="get">
+        <input
+          type="text"
+          placeholder="Search car by name or brand..."
+          name="search"
+          list="search-list"
+          aria-label="searchbox-input"
+          class="input__style search-box"
+          onKeyDown={handleSearchKeyDown}
+        ></input>
+        <datalist id="search-list">
+          <option value="Tesla Model S"></option>
+          <option value="Tesla Model 3"></option>
+          <option value="Tesla Model X"></option>
+          <option value="Tesla Model Y"></option>
+          <option value="Toyota Camry"></option>
+          <option value="Toyota Crown"></option>
+          <option value="Toyota bZ4X"></option>
+          <option value="Subaru Crosstek Hybrid"></option>
+          <option value="Subaru Forester Hybrid"></option>
+          <option value="Subaru Solterra"></option>
+          <option value="Mazda CX-30"></option>
+        </datalist>
+        <button
+        is="my-button"
+          type="submit"
+          aria-label="search-icon"
+          class="search-box__btn accent-button-style"
+        >
+          Search
+        </button>
+      </form>
+    <button class="header__reservation-btn py-1 px-2 accent-button-style" onClick="window.location.href = '/reservation-summary'">Reservation</button> 
+    </div>
   </div>
   </header>
   `;
