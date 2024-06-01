@@ -26,7 +26,7 @@ body {
 }
 
 /* default input style */
-.input-box input {
+.input-box input:not([type="checkbox"]) {
   width: 100%;
 }
 
@@ -40,6 +40,11 @@ body {
   color: var(--neutralColorDarker);
   font-weight: bold;
   margin-bottom: 8px;
+}
+
+input[type="checkbox"] + .input__label {
+  margin-bottom: 0;
+  margin-left: 8px;
 }
 
 .input__style {
@@ -77,10 +82,17 @@ body {
   border: none;  
 }
 
+.my-btn.outline {
+  background-color: var(--white);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
 .my-btn:hover {
   background-color: var(--primaryLight);
   cursor: pointer;
 }
+
 
 .my-btn:disabled {
   background-color: var(--neutralColorDark);

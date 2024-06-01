@@ -19,211 +19,136 @@
   <script type="module" src="../components/myButton.js"></script>
 
   <!-- external packages -->
-  <script src=" https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js "></script>
-
+  <script src=" https://unpkg.com/luxon@3.4.4/build/global/luxon.min.js "></script>
 </head>
 
 <body>
   <my-header-minimal></my-header-minimal>
 
-  <form class="container py-8">
+  <main class="container py-8">
+    <h1 class="mb-2">Reservation Form</h1>
+    <form name="reservation-form" method="POST">
+      <!-- {# checkout input list (name, moibile number, email, checklist yg mastiin punya SIM) #} -->
+      <div class="flex-row justify-content-start flex-spacing-2 mb-5">
+        <!-- First Name -->
+        <div class="col-6 input-box">
+          <label class="input__label" for="firstName">
+            First name
+          </label>
+          <input class="input__style" name="firstName" id="firstName" aria-label="First name" type="text"
+            placeholder="Input First Name here..." required />
+          <span class="input__error-msg"></span>
+        </div>
 
-    <!-- {# checkout input list (name, moibile number, email, checklist yg mastiin punya SIM) #} -->
+        <!-- Last Name -->
+        <div class="col-6 input-box">
+          <label class="input__label" for="lastName">
+            Last Name
+          </label>
+          <input class="input__style" name="lastName" id="lastName" aria-label="Last Name" type="text"
+            placeholder="Input Last Name here..." required />
+          <span class="input__error-msg"></span>
+        </div>
 
-    <!-- Name -->
-    <div class="col-6 input-box">
-      <label class="input__label" for="name">
-        Full Name
-      </label>
-      <input class="input__style" name="name" id="name" aria-label="Full Name" type="text"
-        placeholder="Input Name here..." />
-      <span class="input__error-msg"></span>
-    </div>
+        <!-- Phone Number -->
+        <div class="col-6 input-box">
+          <label class="input__label" for="phoneNumber">
+            Phone Number
+          </label>
+          <input class="input__style" name="phoneNumber" id="phoneNumber" aria-label="Phone Number" type="text"
+            placeholder="Input Phone Number here..." required pattern="[0-9]{0,10}" />
+          <span class="input__error-msg"></span>
+        </div>
 
-    <!-- Phone Number -->
-    <div class="col-6 input-box">
-      <label class="input__label" for="phoneNumber">
-        Phone Number
-      </label>
-      <input class="input__style" name="phoneNumber" id="phoneNumber" aria-label="Phone Number" type="text"
-        placeholder="Input Phone Number here..." />
-      <span class="input__error-msg"></span>
-    </div>
+        <!-- Email -->
+        <div class="col-6 input-box">
+          <label class="input__label" for="email">
+            Email
+          </label>
+          <input class="input__style" name="email" id="email" aria-label="Email" type="email"
+            placeholder="Input Email here..." required />
+          <span class="input__error-msg"></span>
+        </div>
 
-    <!-- Email -->
-    <div class="col-6 input-box">
-      <label class="input__label" for="email">
-        Email
-      </label>
-      <input class="input__style" name="email" id="email" aria-label="Email" type="text"
-        placeholder="Input Email here..." />
-      <span class="input__error-msg"></span>
-    </div>
+        <!-- Driver License Checkbox -->
+        <div class="col-6 input-box">
+          <div class="flex-row align-items-center">
+            <input aria-label="Driver License availability" type="checkbox" name="driverLicense" id="driverLicense"
+              required />
+            <label class="input__label" for="driverLicense">
+              I have my own driver License
+            </label>
+          </div>
+          <span class="input__error-msg"></span>
+        </div>
+      </div>
 
-    <!-- Driver License Checkbox -->
-    <div class="col-6 input-box">
-      <input aria-label="Driver License availability" type="checkbox" name="driverLicense" />
-      &nbsp;
-      <label class="input__label" for="email">
-        I have my own driver License
-      </label>
-      <span class="input__error-msg"></span>
-    </div>
+      <h2 class="mt-3 mb-2">Order Summary</h2>
+      <!-- {# car item modification (bisa ambil dari assignment 1) #}  -->
+      <img id="car__img" src="" alt="" class="mb-3">
+      <p id="car__name"></p>
+      <p>A$<span id="car__price"></span> / Day</p>
 
-    <h2>Reservation Summary</h2>
-    <!-- {# car item modification (bisa ambil dari assignment 1) #}  -->
-    <img id="car__img" src="" alt="" class="pb-2">
+      <div class="flex-row flex-spacing-2 mb-4 car__reservation-summary-price">
 
-    <!-- Qty Count  -->
-    <div>
-      <button class="cart-item__count__button-min my-btn">
-        -
-      </button>
-      <input class="input__style cart-item__count__input" aria-label="Car Quantity" type="text" name="qty" id="car__qty"
-        placeholder="car qty" />
-      <button class="cart-item__count__button-plus my-btn">
-        +
-      </button>
-    </div>
+        <!-- Qty Count  -->
+        <div class="cart-item__count col-3">
+          <label class="input__label" for="car__qty">
+            Car Quantity
+          </label>
+          <div class="flex-row justify-content-center">
+            <button class="cart-item__count__button-min" is="my-button">
+              -
+            </button>
+            <input class="input__style cart-item__count__input" aria-label="Car Quantity" type="text" name="qty"
+              id="car__qty" placeholder="car qty" required />
+            <button class="cart-item__count__button-plus" is="my-button">
+              +
+            </button>
+          </div>
+        </div>
 
-    <!-- {# calendar input (input type date 2, start dan en), trus pke luxon buat cek selisihnya #} -->
-    Start Date: <input aria-label="Rental Start Date" type="date" name="startDate" id="car__start-date" />
-    End Date: <input aria-label="Rental End Date" type="date" name="startDate" id="car__end-date" />
+        <!-- Calendar Input Count  -->
+        <div class="col-3 input-box">
+          <label class="input__label" for="car__start-date">
+            Pick up Date
+          </label>
+          <input class="input__style" aria-label="Pick up Date" type="date" name="startDate" id="car__start-date"
+            required />
+          <span class="input__error-msg"></span>
+        </div>
+        <div class="col-3 input-box">
+          <label class="input__label" for="car__end-date">
+            Drop off Date
+          </label>
+          <input class="input__style" aria-label="Drop off date" type="date" name="endDate" id="car__end-date"
+            required />
+          <span class="input__error-msg"></span>
+        </div>
 
-    <!-- {# summary (total hari + mobil + harga mobil) #} -->
-    Waiting to paid: <strong>A$<span id="car__total-price"></span></strong>
+        <!-- Price total -->
+        <div class="col-3">
+          <div class="flex-column">
+            <label class="input__label">
+              Total Price
+            </label>
+            <strong>A$<span id="car__total-price"></span></strong>
+          </div>
+        </div>
+      </div>
 
-    <!-- {# submit button + cancel buat balik; kalo cancel data keapus, klo dari browser masih kesimpen #}  -->
-    <button type="submit">Submit</button>
-    <button type="button">Cancel</button>
-  </form>
-  <script>
-    // variable prep
-    const productDummyImage =
-      "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/Model-Y-Range-Desktop-LHD.jpg";
-    const carData = window.localStorage.getItem('car');
-    const parsedCarData = JSON.parse(carData);
-    const initCarQty = window.localStorage.getItem('qty');
-    const initStartDate = window.localStorage.getItem('startDate');
-    const initEndDate = window.localStorage.getItem('endDate');
-    const todayDate = luxon.DateTime.now().toISODate();
-
-    // === function
-    function handleCountDayDifference(startDate, endDate) {
-      var end = luxon.DateTime.fromISO(endDate);
-      var start = luxon.DateTime.fromISO(startDate);
-
-      return end.diff(start, 'days').as('days');
-    }
-    function countTotalPrice() {
-      const carQty = parseInt(window.localStorage.getItem('qty'), 10);
-      const startDate = window.localStorage.getItem('startDate');
-      const endDate = window.localStorage.getItem('endDate');
-      const daysTotal = handleCountDayDifference(startDate, endDate);
-      const carPricePerDay = parseInt(parsedCarData.price, 10);
-
-      const totalPrice = carQty * daysTotal * carPricePerDay;
-
-      document.getElementById('car__total-price').innerHTML = totalPrice;
-    }
-    function handleUpdateQtyInput(currentQty) {
-      const parsedCurrentQty = parseInt(currentQty, 10);
-
-      document.getElementById('car__qty').value = parsedCurrentQty;
-      if (parsedCurrentQty <= 1) document.querySelector('.cart-item__count__button-min').setAttribute('disabled', '');
-      else document.querySelector('.cart-item__count__button-min').removeAttribute('disabled');
-
-      if (parsedCurrentQty >= parseInt(parsedCarData.stock, 10)) document.querySelector('.cart-item__count__button-plus').setAttribute('disabled', '');
-      else document.querySelector('.cart-item__count__button-plus').removeAttribute('disabled');
-    }
-    function getCurrentCarQty() {
-      const currentValue = document.getElementById('car__qty').value;
-
-      return parseInt(currentValue, 10);
-    }
-    // watch for qty value change
-    function handleQtyChange(qty) {
-      let newCarQty = qty;
-      const maximumStock =
-        parseInt(parsedCarData.stock, 10);
-
-      if (newCarQty <= 0 || isNaN(newCarQty)) newCarQty = 1;
-      else if (newCarQty > maximumStock) newCarQty = maximumStock;
-
-      window.localStorage.setItem('qty', newCarQty);
-
-      handleUpdateQtyInput(newCarQty);
-      countTotalPrice();
-    }
-    function modifyCarInputQuantity(e) {
-      let newCarQty = parseInt(e.currentTarget.value, 10);
-
-      handleQtyChange(newCarQty);
-
-    }
-    function addCarQuantity(e) {
-      e.preventDefault();
-      const newCarQty = getCurrentCarQty() + 1;
-
-      handleQtyChange(newCarQty);
-    };
-    function reduceCarQuantity(e) {
-      e.preventDefault();
-      const newCarQty = getCurrentCarQty() - 1;
-      handleQtyChange(newCarQty);
-    }
-    function handleStartDateChange(e) {
-      const currentStartDate = e.currentTarget.value;
-      window.localStorage.setItem('startDate', currentStartDate);
-
-      const minEndDate = luxon.DateTime.fromISO(currentStartDate).plus({ days: 1 });
-      const currentEndDate = luxon.DateTime.fromISO(document.getElementById('car__end-date').value);
-      let newEndDate = currentEndDate;
-
-      if (currentEndDate.diff(minEndDate).as('days') <= 0) newEndDate = minEndDate;
-
-      document.getElementById('car__end-date').value = newEndDate.toISODate();
-      document.getElementById('car__end-date').setAttribute('min', newEndDate.toISODate());
-      document.getElementById('car__end-date').removeAttribute('disabled');
-      countTotalPrice();
-    }
-    function handleEndDateChange(e) {
-      const currentEndDate = e.currentTarget.value;
-      window.localStorage.setItem('endDate', currentEndDate);
-
-      const currentStartDate = window.localStorage.getItem('startDate');
-      countTotalPrice();
-    }
-
-    // document ready
-    if (parsedCarData) {
-      const { image = productDummyImage } = parsedCarData;
-
-      // set default settings for input
-      document.getElementById('car__img').setAttribute('src', image);
-      document.getElementById('car__start-date').setAttribute('min', initStartDate ? initStartDate : todayDate);
-      document.getElementById('car__end-date').setAttribute('min', initStartDate ? luxon.DateTime.fromISO(initStartDate).plus({ days: 1 }).toISODate() : todayDate);
-      if (!initStartDate) {
-        document.getElementById('car__end-date').setAttribute('disabled', ''); // disable end date at beginning if no start date
-      }
-      if (initEndDate) {
-        document.getElementById('car__end-date').value = initEndDate;
-      }
-      handleUpdateQtyInput(initCarQty)
-      countTotalPrice();
-    }
-
-    // TODO: Bug di init startdate and enddate
-
-    // === set default event listener
-    document.getElementById('car__qty').addEventListener('input', modifyCarInputQuantity);
-    document.querySelector('.cart-item__count__button-min').addEventListener('click', reduceCarQuantity);
-    document.querySelector('.cart-item__count__button-plus').addEventListener('click', addCarQuantity);
-    document.getElementById('car__start-date').addEventListener('input', handleStartDateChange);
-    document.getElementById('car__end-date').addEventListener('input', handleEndDateChange);
-
-
-  </script>
+      <!-- Submit & Cancel  -->
+      <div class="flex-row flex-spacing-2">
+        <div class="col-6">
+          <button is="my-button" type="submit">Submit</button>
+        </div>
+        <div class="col-6">
+          <button is="my-button" class="outline" type="button" id="reservation__cancel-reservation">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </main>
+  <script src="./reservation-summary.js"></script>
 </body>
 
 </html>
