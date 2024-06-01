@@ -34,8 +34,10 @@
       .then((res) => res.text())
       .then((res) => {
         const carData = JSON.parse(res);
+
         if (carData.length === 0) mainContent.innerHTML = '<no-data />';
         else {
+          const confirmationStatus = Boolean(parseInt(carData[0].confirmationStatus, 10));
           const data = carData[0];
           const carDataVisual = `
            <p class="text-size-xl mt-6 text-center">🎉</p>
@@ -116,13 +118,38 @@
           <strong>A$${data.totalPrice}</strong>
         </span>
       </div>
-      <Button onClick={handleBackHome} class="my-btn">
+      <button is="my-button" id="order-summary__confirm-reservation" ${confirmationStatus ? 'disabled' : ''}>
+        ${confirmationStatus ? 'Reservation Confirmed' : 'Confirm Reservation'}
+      </button>
+      <button is="my-button">
         Back to Home
-      </Button>
+      </button>
     </div>
   </div>
           `;
           mainContent.innerHTML = carDataVisual;
+
+          // add event listener in button
+          if (confirmationStatus === false) {
+            document.getElementById('order-summary__confirm-reservation').addEventListener('click', function (e) {
+              e.preventDefault();
+              const queryString = window.location.search;
+
+              fetch(`/api/postConfirmOrder.php` + queryString)
+                .then((res) => res.text())
+                .then((res) => JSON.parse(res)._id)
+                .then((confirmationStatus) => {
+                  window.alert('Reservation confirmed! See you at pick up time!')
+
+                  const confirmationButton = document.getElementById('order-summary__confirm-reservation');
+
+                  confirmationButton.setAttribute('disabled', '');
+                  confirmationButton.innerHTML = 'Reservation Confirmed';
+
+                })
+                .catch(({ message }) => window.alert(message));
+            });
+          }
         }
       }
       )

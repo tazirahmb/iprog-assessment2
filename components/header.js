@@ -57,10 +57,24 @@ const element = `
       type="text"
       placeholder="Search car by name or brand..."
 				name="search"
+								list="search-list"
 				aria-label="searchbox-input"
 				class="input__style search-box"
 				onKeyDown={handleSearchKeyDown}
 			/>
+							<datalist id="search-list">
+									<option value="Tesla Model S"></option>
+									<option value="Tesla Model 3"></option>
+									<option value="Tesla Model X"></option>
+									<option value="Tesla Model Y"></option>
+									<option value="Toyota Camry"></option>
+									<option value="Toyota Crown"></option>
+									<option value="Toyota bZ4X"></option>
+									<option value="Subaru Crosstek Hybrid"></option>
+									<option value="Subaru Forester Hybrid"></option>
+									<option value="Subaru Solterra"></option>
+									<option value="Mazda CX-30"></option>
+								</datalist>
 			<button
       is="my-button"
 				type="submit"

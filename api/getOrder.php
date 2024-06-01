@@ -16,7 +16,8 @@
     orders.start_date AS startDate,
     orders.end_date AS endDate,
     orders.car_quantity AS quantity,
-    orders.total_price AS totalPrice
+    orders.total_price AS totalPrice,
+    orders.status AS confirmationStatus
     FROM orders, cars, categories
     WHERE orders._id = $order_id AND cars.category_id = categories._id AND orders.car_id = cars._id";
    

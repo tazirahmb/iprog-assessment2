@@ -23,11 +23,6 @@
   
   if($final_car_stock < 0) {
     throw new Exception("your car quantity order total exceed available in our database!", 1);
-  } else {
-    $update_car_quantity_query = "UPDATE cars
-      SET stock = $final_car_stock
-      WHERE _id = $carId;";
-    mysqli_query($conn, $update_car_quantity_query);
   }
 
 // insert order data to db after stock successfully decreased
