@@ -111,3 +111,6 @@ dl {
   border-bottom: none;
   background: none;
 }
+.text-center {
+  text-align: center;
+}

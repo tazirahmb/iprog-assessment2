@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Zira's Car Rental</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS Import -->
+  <link rel="stylesheet" href="css/normalise.css" />
+  <link rel="stylesheet" href="css/globals.css" />
+  <link rel="stylesheet" href="css/layouts.css" />
+
+  <!-- Component Import -->
+  <script type="module" src="components/headerMinimal.js"></script>
+  <script type="module" src="components/loading.js"></script>
+  <script type="module" src="components/noData.js"></script>
+  <!-- TODO: how to make this btn just imported in carItem only? -->
+  <script type="module" src="components/myButton.js"></script>
+</head>
+
+<body>
+  <my-header-minimal></my-header-minimal>
+
+  <!-- {# list #} -->
+  <main class="container py-8">
+    <section class="flex-row justify-content-start flex-spacing-3" id="home-content"><loading-spinner /></section>
+  </main>
+  <script>
+    const mainContent = document.getElementById('home-content');
+
+    const queryString = window.location.search;
+
+    fetch(`/api/getOrder.php` + queryString)
+      .then((res) => res.text())
+      .then((res) => {
+        const carData = JSON.parse(res);
+        if (carData.length === 0) mainContent.innerHTML = '<no-data />';
+        else {
+          const data = carData[0];
+          const carDataVisual = `
+           <p class="text-size-xl mt-6 text-center">🎉</p>
+  <h1 class="my-2 text-center">Order Complete</h1>
+  <div class="flex-row justify-content-center">
+    <div class="col-6">
+      <p class="text-size-md">
+        Thanks for shopping with us. Your invoice number is&nbsp;
+        <strong>${parseInt(data._id, 10)}</strong> We also send your order
+        summary to your email. Here is your order summary:
+      </p>
+      <div class="flex-column">
+        <h2 class="text-center my-2">
+          Personal Information
+        </h2>
+        <table>
+          <tr>
+            <td>
+              <strong>Full Name</strong>
+            </td>
+            <td>${data.fullName}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Email</strong>
+            </td>
+            <td>${data.email}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Phone Number</strong>
+            </td>
+            <td>${data.phoneNumber}</td>
+          </tr>
+        </table>
+        <h2 class="text-center my-2">Ordered Item</h2>
+         <div class="flex-row flex-spacing-2">
+        <!-- Car Information  -->
+        <div class="col-5">
+          <div class="flex-column flex-spacing-2">
+            <img id="car__img" src="${data.image}" alt="" class="mb-3">
+            <p id="car__name">${data.brand + ' ' + data.carName}</p>
+            <p>A$<span id="car__price">${data.initPrice}</span> / Day</p>
+          </div>
+        </div>
+
+        <!-- Car Qty Modification  -->
+        <div class="col-7">
+          <div class="flex-row flex-spacing-2 car__reservation-summary-price">
+            <!-- Calendar Input Count  -->
+            <div class="col-6 input-box">
+              <label class="input__label" for="car__start-date">
+                Pick up Date
+              </label>
+<span>${data.startDate}</span>
+</div>
+<div class="col-6 input-box">
+  <label class="input__label" for="car__end-date">
+    Drop off Date
+    </label>
+    <span>${data.endDate}</span>
+    </div>
+    
+    <!-- Qty Count  -->
+    <div class="cart-item__count col-6">
+      <label class="input__label" for="car__qty">
+        Car Quantity
+        </label>
+        <span>${data.quantity}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="flex-row justify-content-end align-items-center my-2">
+        <span>Total Price</span>
+        <span class="ml-2 text-size-lg">
+          <strong>A$${data.totalPrice}</strong>
+        </span>
+      </div>
+      <Button onClick={handleBackHome} class="my-btn">
+        Back to Home
+      </Button>
+    </div>
+  </div>
+          `;
+          mainContent.innerHTML = carDataVisual;
+        }
+      }
+      )
+      .catch((err) => {
+        console.error(err)
+
+        mainContent.innerHTML = '<no-data />';
+      });
+
+  </script>
+</body>
+
+</html>

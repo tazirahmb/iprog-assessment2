@@ -16,6 +16,9 @@ const inputNameList = [
   "phoneNumber",
   "email",
   "phoneNumber",
+  "startDate",
+  "endDate",
+  "qty",
 ];
 
 const errorMessageList = {
@@ -117,7 +120,10 @@ function countTotalPrice() {
   const endDate = window.localStorage.getItem("endDate") || tomorrowDate;
   const daysTotal = handleCountDayDifference(startDate, endDate);
   const carPricePerDay = parseInt(parsedCarData.price, 10);
-  let totalPrice = carQty * daysTotal * carPricePerDay;
+  return carQty * daysTotal * carPricePerDay;
+}
+function printTotalPrice() {
+  const totalPrice = countTotalPrice();
   if (isNaN(totalPrice)) totalPrice = "-";
   document.getElementById("car__total-price").innerHTML = totalPrice;
 }
@@ -158,7 +164,7 @@ function handleQtyChange(qty) {
   window.localStorage.setItem("qty", newCarQty);
 
   handleUpdateQtyInput(newCarQty);
-  countTotalPrice();
+  printTotalPrice();
 }
 function modifyCarInputQuantity(e) {
   let newCarQty = parseInt(e.currentTarget.value, 10);
@@ -178,27 +184,34 @@ function reduceCarQuantity(e) {
 }
 function handleStartDateChange(e) {
   handleChangeValidate(e);
-  const minEndDate = luxon.DateTime.fromISO(currentStartDate).plus({ days: 1 });
-  const currentEndDate = luxon.DateTime.fromISO(
-    document.getElementById("car__end-date").value
-  );
-  let newEndDate = currentEndDate;
+  const minEndDate = luxon.DateTime.fromISO(e.currentTarget.value)
+    .plus({
+      days: 1,
+    })
+    .toISODate();
+  const currentEndDate = document.getElementById("car__end-date").value;
+  let newEndDate =
+    handleCountDayDifference(minEndDate, currentEndDate) <= 0
+      ? minEndDate
+      : currentEndDate;
 
-  if (currentEndDate.diff(minEndDate).as("days") <= 0) {
-    newEndDate = minEndDate;
-    window.localStorage.setItem("endDate", newEndDate.toISODate());
-  }
+  window.localStorage.setItem("endDate", newEndDate);
 
-  document.getElementById("car__end-date").value = newEndDate.toISODate();
-  document
-    .getElementById("car__end-date")
-    .setAttribute("min", newEndDate.toISODate());
+  document.getElementById("car__end-date").value = newEndDate;
+  document.getElementById("car__end-date").setAttribute("min", newEndDate);
   document.getElementById("car__end-date").removeAttribute("disabled");
-  countTotalPrice();
+  printTotalPrice();
 }
 function handleEndDateChange(e) {
   handleChangeValidate(e);
-  countTotalPrice();
+  printTotalPrice();
+}
+function emptyLocalStorage() {
+  // remove localstorage
+  window.localStorage.removeItem("car");
+  inputNameList.forEach((name) => {
+    window.localStorage.removeItem(name);
+  });
 }
 function handleCancelReservation() {
   let confirmCancelReservation = window.confirm(
@@ -206,16 +219,33 @@ function handleCancelReservation() {
   );
 
   if (confirmCancelReservation) {
-    // remove localstorage
-    window.localStorage.removeItem("car");
-    window.localStorage.removeItem("qty");
-    window.localStorage.removeItem("startDate");
-    window.localStorage.removeItem("endDate");
-    inputNameList.forEach((name) => {
-      window.localStorage.removeItem(name);
-    });
+    emptyLocalStorage();
     window.location.href = "/";
   }
+}
+function handleSubmitReservation(e, data) {
+  e.preventDefault();
+  const formData = new FormData();
+
+  inputNameList.forEach((name) => {
+    formData.append(name, window.localStorage.getItem(name));
+  });
+
+  // append cart order
+  formData.append("_id", parsedCarData._id);
+  formData.append("totalPrice", countTotalPrice());
+
+  fetch(`/api/postOrder.php`, {
+    method: "POST",
+    body: formData,
+  })
+    .then((res) => res.text())
+    .then((res) => JSON.parse(res)._id)
+    .then((orderId) => {
+      emptyLocalStorage();
+      window.location.href = `/reservation-confirmation?orderId=${orderId}`;
+    })
+    .catch(({ message }) => window.alert(message));
 }
 
 // === set default event listener
@@ -246,6 +276,11 @@ document
 document
   .getElementById("car__end-date")
   .addEventListener("input", handleEndDateChange);
+document.forms["reservation-form"].addEventListener(
+  "submit",
+  handleSubmitReservation,
+  { preventDefault: true }
+);
 
 // === document ready
 if (parsedCarData) {
@@ -263,7 +298,7 @@ if (parsedCarData) {
 
   setInitStartAndEndDate(initStartDate, initEndDate);
   handleUpdateQtyInput(initCarQty);
-  countTotalPrice();
+  printTotalPrice();
 } else {
   window.alert("Please add car reservation first.");
 
