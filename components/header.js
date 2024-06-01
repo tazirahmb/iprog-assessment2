@@ -5,7 +5,7 @@ const element = `
       border-bottom: 1.5px solid var(--primaryLight);
     }
 
-    .header-wrapper * {
+    .header-wrapper > p, strong {
       color: var(--white);
     }
 
@@ -13,18 +13,36 @@ const element = `
       color: var(--neutralColorDark);
     }
 
+    .accent-button-style {
+      background-color: var(--accentColor);
+      color: var(--neutralColorDarker);
+      font-weight: bold;
+    }
+
+    .accent-button-style:hover {
+      cursor: pointer;
+    background-color: var(--primaryLight);
+    color: var(--neutralColorLighter);
+  }
+
 .header__reservation-btn {
   border: none;
   border-radius: 4px;
-  background-color: var(--accentColor);
-  color: var(--neutralColorDarker);
-  font-weight: bold;
 }
 
-.header__reservation-btn:hover {
-  cursor: pointer;
-  background-color: var(--primaryLight);
-  color: var(--neutralColorLighter);
+.search-box {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  width: 320px;
+  border-left: none;
+}
+
+.search-box__btn {
+  width: auto;
+  height: 48px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin: 0;
 }
   </style>
   <header class="header-wrapper py-1">
@@ -34,12 +52,47 @@ const element = `
   <p>logo</p>  
   <strong>Zira's Car Rental</strong>
   </div>
-  <input type="text" class="py-1 px-2" placeholder="Search car here..." />
-  <button class="header__reservation-btn py-1 px-2" onClick="window.location.href = '/reservation-summary'">Reservation</button> 
+  <form name="car__search-form" method="get">
+			<input
+      type="text"
+      placeholder="Search car by name or brand..."
+				name="search"
+				aria-label="searchbox-input"
+				class="input__style search-box"
+				onKeyDown={handleSearchKeyDown}
+			/>
+			<button
+      is="my-button"
+				type="submit"
+				aria-label="search-icon"
+				class="search-box__btn accent-button-style"
+			>
+				Search
+			</button>
+		</form>
+  <button class="header__reservation-btn py-1 px-2 accent-button-style" onClick="window.location.href = '/reservation-summary'">Reservation</button> 
   </div>
   </div>
   </header>
   `;
+
+function redirectToSearch(query) {
+  window.location.href = `/?search=${query}`;
+}
+
+function handleSearch(formData) {
+  const searchQuery = formData.get("search") || "";
+  if (searchQuery !== "") {
+    redirectToSearch(searchQuery);
+  }
+}
+
+function handleSearchKeyDown(e) {
+  const { value } = e.target;
+  if (e.key === "Enter" && value !== "") {
+    redirectToSearch(value.trim());
+  }
+}
 
 // Reservation button redirect ke halaman reservation, nampilin dari local storage klo ada data, kalo gaada diapus.
 class MyHeader extends HTMLElement {
@@ -47,6 +100,12 @@ class MyHeader extends HTMLElement {
     super();
 
     this.innerHTML = element;
+  }
+
+  connectedCallback() {
+    const searchBox = this.querySelector("[name='search']");
+    searchBox.addEventListener("keydown", handleSearchKeyDown);
+    document.forms["car__search-form"].addEventListener("submit", handleSearch);
   }
 }
 

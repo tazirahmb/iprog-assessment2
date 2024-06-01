@@ -7,7 +7,7 @@ const template = `
       }
 
       .no-data__icon {
-        font-size: 6rem;
+        font-size: 60px;
         font-weight: bold;
       }
   </style>

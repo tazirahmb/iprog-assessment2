@@ -10,6 +10,14 @@ const todayDate = luxon.DateTime.now().toISODate();
 const tomorrowDate = luxon.DateTime.now().plus({ days: 1 }).toISODate();
 // === form validation
 
+const inputNameList = [
+  "firstName",
+  "lastName",
+  "phoneNumber",
+  "email",
+  "phoneNumber",
+];
+
 const errorMessageList = {
   required: "This field is Required",
   invalidPhoneNumber: "Please input phone number between 0 to 10 digits",
@@ -77,6 +85,8 @@ function handleBlurValidate(e) {
 }
 function handleChangeValidate(e) {
   const inputName = e.currentTarget.name;
+  const inputValue = e.currentTarget.value;
+  window.localStorage.setItem(inputName, inputValue);
   const inputElement = document.forms["reservation-form"][inputName];
   if (inputElement.touched) {
     validateInput(e, inputName);
@@ -103,11 +113,10 @@ function setInitStartAndEndDate(startDate, endDate) {
 }
 function countTotalPrice() {
   const carQty = parseInt(window.localStorage.getItem("qty"), 10);
-  const startDate = window.localStorage.getItem("startDate");
-  const endDate = window.localStorage.getItem("endDate");
+  const startDate = window.localStorage.getItem("startDate") || todayDate;
+  const endDate = window.localStorage.getItem("endDate") || tomorrowDate;
   const daysTotal = handleCountDayDifference(startDate, endDate);
   const carPricePerDay = parseInt(parsedCarData.price, 10);
-  console.log(daysTotal);
   let totalPrice = carQty * daysTotal * carPricePerDay;
   if (isNaN(totalPrice)) totalPrice = "-";
   document.getElementById("car__total-price").innerHTML = totalPrice;
@@ -169,9 +178,6 @@ function reduceCarQuantity(e) {
 }
 function handleStartDateChange(e) {
   handleChangeValidate(e);
-  const currentStartDate = e.currentTarget.value;
-  window.localStorage.setItem("startDate", currentStartDate);
-
   const minEndDate = luxon.DateTime.fromISO(currentStartDate).plus({ days: 1 });
   const currentEndDate = luxon.DateTime.fromISO(
     document.getElementById("car__end-date").value
@@ -192,8 +198,6 @@ function handleStartDateChange(e) {
 }
 function handleEndDateChange(e) {
   handleChangeValidate(e);
-  const currentEndDate = e.currentTarget.value;
-  window.localStorage.setItem("endDate", currentEndDate);
   countTotalPrice();
 }
 function handleCancelReservation() {
@@ -207,7 +211,9 @@ function handleCancelReservation() {
     window.localStorage.removeItem("qty");
     window.localStorage.removeItem("startDate");
     window.localStorage.removeItem("endDate");
-
+    inputNameList.forEach((name) => {
+      window.localStorage.removeItem(name);
+    });
     window.location.href = "/";
   }
 }
@@ -249,6 +255,11 @@ if (parsedCarData) {
   document.getElementById("car__img").setAttribute("src", image);
   document.getElementById("car__name").innerHTML = parsedCarData.name;
   document.getElementById("car__price").innerHTML = parsedCarData.price;
+
+  inputNameList.forEach((name) => {
+    document.forms["reservation-form"][name].value =
+      window.localStorage.getItem(name) || "";
+  });
 
   setInitStartAndEndDate(initStartDate, initEndDate);
   handleUpdateQtyInput(initCarQty);

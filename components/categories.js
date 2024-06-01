@@ -1,18 +1,31 @@
 const categoriesList = [
-  { label: "Cat 1", value: "1" },
-  { label: "Cat 2", value: "2" },
-  { label: "Cat 3", value: "3" },
-  { label: "Cat 4", value: "4" },
+  { label: "Tesla", value: "1" },
+  { label: "Toyota", value: "2" },
+  { label: "Subaru", value: "3" },
+  { label: "Mazda", value: "4" },
 ];
 
 // Reservation button redirect ke halaman reservation, nampilin dari local storage klo ada data, kalo gaada diapus.
 class Categories extends HTMLElement {
+  fetchData() {
+    // const queryString = window.location.search;
+    fetch(`/api/getCategories.php`)
+      .then((res) => res.text())
+      .then((res) => {
+        this.categories = JSON.parse(res);
+      })
+      .catch((err) => console.error(err));
+  }
+
   constructor() {
     super();
+    this.categories = [];
     // get categories ID
     const queryString = window.location.search;
     const params = new URLSearchParams(queryString);
     const selectedCategory = params.get("category");
+
+    this.fetchData();
 
     this.innerHTML = `
   <style>

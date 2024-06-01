@@ -26,25 +26,30 @@
 
   <!-- {# list #} -->
   <main class="container py-8">
-    <section class="flex-row justify-content-start flex-spacing-3" id="home-content"></section>
+    <section class="flex-row justify-content-start flex-spacing-3" id="home-content"><loading-spinner /></section>
   </main>
   <script>
-    let loading = false;
-    let itemData = [
-      { name: 'Tesla Model Y', price: 100, stock: 1, image: 'https://ik.imagekit.io/zlt25mb52fx/ahmcdn/tr:w-550,f-auto,pr-true/uploads/product-draft/colors/v125-variant-web-matte-red-cbs-515x504px-1-01042024-031801-02042024-061006.png' },
-      { name: 'Tesla Model Y', price: 100, stock: 0 },
-      { name: 'Tesla Model Y', price: 100, stock: 1 },
-      { name: 'Tesla Model Y', price: 100, stock: 1 },
-    ];
-
     const mainContent = document.getElementById('home-content');
 
-    if (loading) mainContent.innerHTML = '<loading-spinner />';
-    else if (itemData.length === 0) mainContent.innerHTML = '<no-data />';
-    else {
-      const carData = itemData.reduce((accum, car) => accum + `<div class="col-4"><car-item data='${JSON.stringify(car)}'></car-item></div>`, '');
-      mainContent.innerHTML = carData;
-    }
+    const queryString = window.location.search;
+
+    fetch(`/api/getCars.php` + queryString)
+      .then((res) => res.text())
+      .then((res) => {
+        const carData = JSON.parse(res).map(({ brand, name, price, stock, ...rest }) => ({ name: brand + ' ' + name, price: parseInt(price, 10), stock: parseInt(stock, 10), ...rest }));
+        console.log(carData);
+        if (carData.length === 0) mainContent.innerHTML = '<no-data />';
+        else {
+          const carDataVisual = carData.reduce((accum, car) => accum + `<div class="col-4"><car-item data='${JSON.stringify(car)}'></car-item></div>`, '');
+          mainContent.innerHTML = carDataVisual;
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+
+        mainContent.innerHTML = '<no-data />';
+      });
+
   </script>
 </body>
 

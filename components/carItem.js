@@ -22,6 +22,17 @@ class CarItem extends HTMLElement {
       border-color: var(--primary);
     }
 
+    .car-item__img-wrapper {
+      height: 200px;
+      display: flex;
+      align-items: center;
+    }
+
+    .car-item__img {
+      width: 100%;
+      height: auto;
+    }
+
     .car-item__content {
       height: 100px;
     }
@@ -39,13 +50,13 @@ class CarItem extends HTMLElement {
     }
   </style>
   <div class="car-item p-2">
-			<img
-				src="${this.item.image || productDummyImage}"
-				alt="${this.item.name}"
-				width="200"
-				height="200"
-				class="mx-auto"
-			/>
+    <div class="car-item__img-wrapper">
+      <img
+      src="${this.item.image || productDummyImage}"
+      alt="${this.item.name}"
+      class="mx-auto car-item__img"
+      />
+    </div>
 			<div class="car-item__content my-1">
 				<h2 class="text-size-md mt-2 mb-1">${this.item.name}</h2>
 				<p class="mt-2 mb-1">

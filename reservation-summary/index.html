@@ -84,59 +84,66 @@
       </div>
 
       <h2 class="mt-3 mb-2">Order Summary</h2>
-      <!-- {# car item modification (bisa ambil dari assignment 1) #}  -->
-      <img id="car__img" src="" alt="" class="mb-3">
-      <p id="car__name"></p>
-      <p>A$<span id="car__price"></span> / Day</p>
-
-      <div class="flex-row flex-spacing-2 mb-4 car__reservation-summary-price">
-
-        <!-- Qty Count  -->
-        <div class="cart-item__count col-3">
-          <label class="input__label" for="car__qty">
-            Car Quantity
-          </label>
-          <div class="flex-row justify-content-center">
-            <button class="cart-item__count__button-min" is="my-button">
-              -
-            </button>
-            <input class="input__style cart-item__count__input" aria-label="Car Quantity" type="text" name="qty"
-              id="car__qty" placeholder="car qty" required />
-            <button class="cart-item__count__button-plus" is="my-button">
-              +
-            </button>
+      <div class="flex-row flex-spacing-2">
+        <!-- Car Information  -->
+        <div class="col-5">
+          <div class="flex-column flex-spacing-2">
+            <img id="car__img" src="" alt="" class="mb-3">
+            <p id="car__name"></p>
+            <p>A$<span id="car__price"></span> / Day</p>
           </div>
         </div>
 
-        <!-- Calendar Input Count  -->
-        <div class="col-3 input-box">
-          <label class="input__label" for="car__start-date">
-            Pick up Date
-          </label>
-          <input class="input__style" aria-label="Pick up Date" type="date" name="startDate" id="car__start-date"
-            required />
-          <span class="input__error-msg"></span>
-        </div>
-        <div class="col-3 input-box">
-          <label class="input__label" for="car__end-date">
-            Drop off Date
-          </label>
-          <input class="input__style" aria-label="Drop off date" type="date" name="endDate" id="car__end-date"
-            required />
-          <span class="input__error-msg"></span>
-        </div>
+        <!-- Car Qty Modification  -->
+        <div class="col-7">
+          <div class="flex-row flex-spacing-2 car__reservation-summary-price">
+            <!-- Calendar Input Count  -->
+            <div class="col-6 input-box">
+              <label class="input__label" for="car__start-date">
+                Pick up Date
+              </label>
+              <input class="input__style" aria-label="Pick up Date" type="date" name="startDate" id="car__start-date"
+                required />
+              <span class="input__error-msg"></span>
+            </div>
+            <div class="col-6 input-box">
+              <label class="input__label" for="car__end-date">
+                Drop off Date
+              </label>
+              <input class="input__style" aria-label="Drop off date" type="date" name="endDate" id="car__end-date"
+                required />
+              <span class="input__error-msg"></span>
+            </div>
 
-        <!-- Price total -->
-        <div class="col-3">
-          <div class="flex-column">
-            <label class="input__label">
-              Total Price
-            </label>
-            <strong>A$<span id="car__total-price"></span></strong>
+            <!-- Qty Count  -->
+            <div class="cart-item__count col-6">
+              <label class="input__label" for="car__qty">
+                Car Quantity
+              </label>
+              <div class="flex-row justify-content-center">
+                <button class="cart-item__count__button-min" is="my-button">
+                  -
+                </button>
+                <input class="input__style cart-item__count__input" aria-label="Car Quantity" type="text" name="qty"
+                  id="car__qty" placeholder="car qty" required />
+                <button class="cart-item__count__button-plus" is="my-button">
+                  +
+                </button>
+              </div>
+            </div>
+
+            <!-- Price total -->
+            <div class="col-6">
+              <div class="flex-column">
+                <label class="input__label">
+                  Total Price
+                </label>
+                <strong>A$<span id="car__total-price"></span></strong>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <!-- Submit & Cancel  -->
       <div class="flex-row flex-spacing-2">
         <div class="col-6">

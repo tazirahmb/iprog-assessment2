@@ -1,6 +1,21 @@
 #car__img {
-  width: 200px;
+  width: 100%;
   height: auto;
+}
+
+#car__name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#car__name + p {
+  font-size: 18px;
+  color: var(--neutralColorDark);
+}
+
+#car__price {
+  color: var(--neutralColorDark);
+  font-weight: bold;
 }
 
 
@@ -34,7 +49,7 @@
 }
 
 #car__total-price {
-  font-size: 2rem;
+  font-size: 32px;
   font-weight: bolder;
 }
 
